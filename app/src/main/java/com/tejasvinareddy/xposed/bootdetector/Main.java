@@ -7,9 +7,6 @@ import de.robv.android.xposed.callbacks.XC_LoadPackage;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * Created by tnareddy on 5/30/16.
- */
 public class Main implements IXposedHookLoadPackage {
     private Map<String, Integer> bootCountMap = new HashMap<>();
 
