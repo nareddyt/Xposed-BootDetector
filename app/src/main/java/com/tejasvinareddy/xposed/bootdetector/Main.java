@@ -8,7 +8,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Main implements IXposedHookLoadPackage {
-    private Map<String, Integer> bootCountMap = new HashMap<>();
+    private static Map<String, Integer> bootCountMap = new HashMap<>();
 
     @Override
     public void handleLoadPackage(XC_LoadPackage.LoadPackageParam lpparam)
