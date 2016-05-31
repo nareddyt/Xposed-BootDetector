@@ -1,8 +1,5 @@
-package com.tejasvinareddy.xposed.bootdetector.activity;
+package com.tejasvinareddy.xposed.bootdetector;
 
-import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
-import com.tejasvinareddy.xposed.bootdetector.R;
 import de.robv.android.xposed.IXposedHookLoadPackage;
 import de.robv.android.xposed.XposedBridge;
 import de.robv.android.xposed.callbacks.XC_LoadPackage;
@@ -10,10 +7,11 @@ import de.robv.android.xposed.callbacks.XC_LoadPackage;
 import java.util.HashMap;
 import java.util.Map;
 
-public class MainActivity extends AppCompatActivity implements
-        IXposedHookLoadPackage {
-
-    private Map<String, Integer> bootCountMap;
+/**
+ * Created by tnareddy on 5/30/16.
+ */
+public class Main implements IXposedHookLoadPackage {
+    private Map<String, Integer> bootCountMap = new HashMap<>();
 
     @Override
     public void handleLoadPackage(XC_LoadPackage.LoadPackageParam lpparam)
@@ -33,13 +31,5 @@ public class MainActivity extends AppCompatActivity implements
             bootCountMap.put(loadedPackage, mapCount + 1);
         }
 
-    }
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-
-        bootCountMap = new HashMap<>();
     }
 }
