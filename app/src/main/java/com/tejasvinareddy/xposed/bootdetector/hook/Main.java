@@ -1,4 +1,4 @@
-package com.tejasvinareddy.xposed.bootdetector;
+package com.tejasvinareddy.xposed.bootdetector.hook;
 
 import de.robv.android.xposed.IXposedHookLoadPackage;
 import de.robv.android.xposed.XposedBridge;
