@@ -5,6 +5,7 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import com.tejasvinareddy.xposed.bootdetector.R;
 import com.tejasvinareddy.xposed.bootdetector.model.AppWrapper;
 import com.tejasvinareddy.xposed.bootdetector.ui.AppWrapperAdapter;
@@ -12,19 +13,27 @@ import com.tejasvinareddy.xposed.bootdetector.ui.AppWrapperAdapter;
 import java.util.HashMap;
 import java.util.Map;
 
+// TODO sorting options
+
 public class ListActivity extends AppCompatActivity {
 
-    // FIXME scope + abstraction + encapsulation
     // Use of hashmap to improve time efficiency when a new app is detected in
     // hook.Main.java
-    public static Map<String, AppWrapper> appMap = new HashMap<>();
+    private static Map<String, AppWrapper> appMap = new HashMap<>();
 
     private SwipeRefreshLayout srl;
     private RecyclerView recyclerView;
     private RecyclerView.Adapter adapter;
     private RecyclerView.LayoutManager layoutManager;
 
+    private int count = 0;
+
     private void refreshRecyclerView() {
+
+        // DEBUG
+        count++;
+        appMap.put("Test" + count, new AppWrapper("Test" + count));
+
         // FIXME list
         adapter = new AppWrapperAdapter(appMap,
                 new AppWrapperAdapter.FeedInteractionListener() {
@@ -37,6 +46,7 @@ public class ListActivity extends AppCompatActivity {
                 });
 
         recyclerView.setAdapter(adapter);
+        Log.d("List", "Refreshed!");
     }
 
     @Override
@@ -63,5 +73,11 @@ public class ListActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(layoutManager);
 
         refreshRecyclerView();
+    }
+
+    public static Map<String, AppWrapper> getAppMap() {
+        // FIXME encapsulation
+        Log.d("List", "Returned map");
+        return appMap;
     }
 }

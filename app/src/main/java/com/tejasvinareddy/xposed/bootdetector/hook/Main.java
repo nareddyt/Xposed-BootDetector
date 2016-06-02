@@ -1,5 +1,6 @@
 package com.tejasvinareddy.xposed.bootdetector.hook;
 
+import android.util.Log;
 import com.tejasvinareddy.xposed.bootdetector.activity.ListActivity;
 import com.tejasvinareddy.xposed.bootdetector.model.AppWrapper;
 import de.robv.android.xposed.IXposedHookLoadPackage;
@@ -16,15 +17,16 @@ public class Main implements IXposedHookLoadPackage {
         XposedBridge.log("[BootDetector] " + loadedPackage);
 
         // Update the map as needed
-        AppWrapper app = ListActivity.appMap.get(loadedPackage);
+        AppWrapper app = ListActivity.getAppMap().get(loadedPackage);
         if (app == null) {
             // The key does not exist in the map, so add it with a count of 1
-            ListActivity.appMap.put(loadedPackage, new AppWrapper
+            ListActivity.getAppMap().put(loadedPackage, new AppWrapper
                     (loadedPackage));
         } else {
             // The key does exist in the map, so increment count by 1
             app.incrementLoadCount();
         }
 
+        Log.d("Main", "Added entry");
     }
 }
