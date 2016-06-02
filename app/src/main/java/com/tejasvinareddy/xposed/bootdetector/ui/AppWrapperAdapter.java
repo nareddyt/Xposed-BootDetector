@@ -9,7 +9,8 @@ import android.widget.TextView;
 import com.tejasvinareddy.xposed.bootdetector.R;
 import com.tejasvinareddy.xposed.bootdetector.model.AppWrapper;
 
-import java.util.List;
+import java.util.ArrayList;
+import java.util.Map;
 
 /**
  * Adapter for displaying cardviews that represent apps in a RecyclerView.
@@ -17,13 +18,18 @@ import java.util.List;
 public class AppWrapperAdapter extends RecyclerView.Adapter<AppWrapperAdapter
         .ViewHolder> {
 
-    private List<AppWrapper> apps;
+    private ArrayList<AppWrapper> apps;
     private FeedInteractionListener listener;
 
-    public AppWrapperAdapter(List<AppWrapper> apps, FeedInteractionListener
-            appListener) {
+    public AppWrapperAdapter(Map<String, AppWrapper> apps,
+                             FeedInteractionListener feedInteractionListener) {
+        this(new ArrayList<AppWrapper>(apps.values()), feedInteractionListener);
+    }
+
+    public AppWrapperAdapter(ArrayList<AppWrapper> apps, FeedInteractionListener
+            feedInteractionListener) {
         this.apps = apps;
-        listener = appListener;
+        listener = feedInteractionListener;
     }
 
     public void add(AppWrapper app) {

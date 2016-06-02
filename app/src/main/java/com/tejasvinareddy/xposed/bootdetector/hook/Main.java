@@ -1,15 +1,12 @@
 package com.tejasvinareddy.xposed.bootdetector.hook;
 
+import com.tejasvinareddy.xposed.bootdetector.activity.ListActivity;
+import com.tejasvinareddy.xposed.bootdetector.model.AppWrapper;
 import de.robv.android.xposed.IXposedHookLoadPackage;
 import de.robv.android.xposed.XposedBridge;
 import de.robv.android.xposed.callbacks.XC_LoadPackage;
 
-import java.util.HashMap;
-import java.util.Map;
-
 public class Main implements IXposedHookLoadPackage {
-    private static Map<String, Integer> bootCountMap = new HashMap<>();
-
     @Override
     public void handleLoadPackage(XC_LoadPackage.LoadPackageParam lpparam)
             throws Throwable {
@@ -19,13 +16,14 @@ public class Main implements IXposedHookLoadPackage {
         XposedBridge.log("[BootDetector] " + loadedPackage);
 
         // Update the map as needed
-        Integer mapCount = bootCountMap.get(loadedPackage);
-        if (mapCount == null) {
+        AppWrapper app = ListActivity.appMap.get(loadedPackage);
+        if (app == null) {
             // The key does not exist in the map, so add it with a count of 1
-            bootCountMap.put(loadedPackage, 1);
+            ListActivity.appMap.put(loadedPackage, new AppWrapper
+                    (loadedPackage));
         } else {
             // The key does exist in the map, so increment count by 1
-            bootCountMap.put(loadedPackage, mapCount + 1);
+            app.incrementLoadCount();
         }
 
     }
