@@ -16,7 +16,7 @@ import com.tejasvinareddy.xposed.bootdetector.ui.AppWrapperAdapter;
 // FIXME should be a true consumer that only takes in one app at a time, not
 //      an entire map
 
-public class ListActivity extends AppCompatActivity {
+public class ListActivityConsumer extends AppCompatActivity {
 
     private AppMapSingleton appMapSingleton;
 
@@ -46,9 +46,6 @@ public class ListActivity extends AppCompatActivity {
                     }
                 });
         recyclerView.setAdapter(adapter);
-
-        // DEBUG
-        Log.d("List", "Refreshed!");
     }
 
     @Override

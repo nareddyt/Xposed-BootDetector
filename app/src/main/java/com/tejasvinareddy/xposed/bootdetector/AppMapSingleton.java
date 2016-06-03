@@ -2,21 +2,23 @@ package com.tejasvinareddy.xposed.bootdetector;
 
 import com.tejasvinareddy.xposed.bootdetector.model.AppWrapper;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
 
 public class AppMapSingleton {
 
     // Single instance of this class
-    private static AppMapSingleton instance;
+    private static AppMapSingleton instance = null;
 
     // Use of hashmap to improve time efficiency when a new app is detected in
     // hook.AppProducer.java
-    private Map<String, AppWrapper> appMap;
+    private ConcurrentMap<String, AppWrapper> appMap;
 
     // Required private constructor
     private AppMapSingleton() {
-        appMap = new HashMap<>();
+        // Note the use of a concurrent hash map, as multiple threads will
+        // have access to this single instance!
+        appMap = new ConcurrentHashMap<>();
     }
 
     public static AppMapSingleton newInstance() {
@@ -29,7 +31,7 @@ public class AppMapSingleton {
         return instance;
     }
 
-    public Map<String, AppWrapper> getAppMap() {
+    public ConcurrentMap<String, AppWrapper> getAppMap() {
         return appMap;
     }
 }

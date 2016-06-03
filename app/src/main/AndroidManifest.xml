@@ -8,7 +8,7 @@
             android:label="@string/app_name"
             android:supportsRtl="true"
             android:theme="@style/MaterialTheme">
-        <activity android:name=".activity.ListActivity">
+        <activity android:name=".activity.ListActivityConsumer">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 

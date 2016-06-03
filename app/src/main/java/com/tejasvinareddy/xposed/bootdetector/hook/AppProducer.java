@@ -1,11 +1,13 @@
 package com.tejasvinareddy.xposed.bootdetector.hook;
 
-import android.util.Log;
 import com.tejasvinareddy.xposed.bootdetector.AppMapSingleton;
 import com.tejasvinareddy.xposed.bootdetector.model.AppWrapper;
 import de.robv.android.xposed.IXposedHookLoadPackage;
 import de.robv.android.xposed.XposedBridge;
 import de.robv.android.xposed.callbacks.XC_LoadPackage;
+
+// FIXME should be a true producer that only introduces 1 app at a time, not
+//      a full map
 
 public class AppProducer implements IXposedHookLoadPackage {
 
@@ -29,12 +31,12 @@ public class AppProducer implements IXposedHookLoadPackage {
             appMapSingleton.getAppMap().put(loadedPackage, new AppWrapper
                     (loadedPackage));
             // DEBUG
-            Log.d("AppProducer", "Added entry");
+            XposedBridge.log("[BootDetector] Added");
         } else {
             // The key does exist in the map, so increment count by 1
             app.incrementLoadCount();
             // DEBUG
-            Log.d("AppProducer", "Updated entry");
+            XposedBridge.log("[BootDetector] Updated");
         }
     }
 }
