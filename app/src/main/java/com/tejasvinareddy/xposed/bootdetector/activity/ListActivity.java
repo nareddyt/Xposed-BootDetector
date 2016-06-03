@@ -7,21 +7,18 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import com.tejasvinareddy.xposed.bootdetector.AppMapSingleton;
 import com.tejasvinareddy.xposed.bootdetector.R;
 import com.tejasvinareddy.xposed.bootdetector.model.AppWrapper;
 import com.tejasvinareddy.xposed.bootdetector.ui.AppWrapperAdapter;
-import de.robv.android.xposed.XposedBridge;
-
-import java.util.HashMap;
-import java.util.Map;
 
 // TODO sorting options
+// FIXME should be a true consumer that only takes in one app at a time, not
+//      an entire map
 
 public class ListActivity extends AppCompatActivity {
 
-    // Use of hashmap to improve time efficiency when a new app is detected in
-    // hook.Main.java
-    private static Map<String, AppWrapper> appMap = new HashMap<>();
+    private AppMapSingleton appMapSingleton;
 
     private SwipeRefreshLayout srl;
     private RecyclerView recyclerView;
@@ -34,12 +31,13 @@ public class ListActivity extends AppCompatActivity {
 
         // DEBUG
         count++;
-        appMap.put("Test" + count, new AppWrapper("Test" + count));
+        appMapSingleton.getAppMap().put("Test" + count, new AppWrapper("Test" +
+                count));
         Log.d("DEBUG", "Added in debug entry");
 
         // Set up the adapter
         // FIXME list
-        adapter = new AppWrapperAdapter(appMap,
+        adapter = new AppWrapperAdapter(appMapSingleton.getAppMap(),
                 new AppWrapperAdapter.FeedInteractionListener() {
 
                     @Override
@@ -57,6 +55,9 @@ public class ListActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_list);
+
+        // Set up App Map Singleton
+        appMapSingleton = AppMapSingleton.newInstance();
 
         // Set up toolbar
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -81,13 +82,5 @@ public class ListActivity extends AppCompatActivity {
 
         // Reset the recycler view to set the adapter
         refreshRecyclerView();
-    }
-
-    public static Map<String, AppWrapper> getAppMap() {
-        // FIXME encapsulation
-        // DEBUG
-        Log.d("List", "Returned map");
-        XposedBridge.log("[BootDetector] Returned map!");
-        return appMap;
     }
 }
