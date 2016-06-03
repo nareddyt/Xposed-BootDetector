@@ -21,8 +21,8 @@ public class AppMapSingleton {
         appMap = new ConcurrentHashMap<>();
     }
 
-    public static AppMapSingleton newInstance() {
-
+    // FIXME switch over to a Mutually Exclusive Semaphore
+    public static synchronized AppMapSingleton newInstance() {
         // Singleton implementation
         if (instance == null) {
             instance = new AppMapSingleton();

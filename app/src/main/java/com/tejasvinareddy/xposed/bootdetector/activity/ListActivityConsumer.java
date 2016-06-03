@@ -33,10 +33,9 @@ public class ListActivityConsumer extends AppCompatActivity {
         count++;
         appMapSingleton.getAppMap().put("Test" + count, new AppWrapper("Test" +
                 count));
-        Log.d("DEBUG", "Added in debug entry");
+        Log.d("BootDetector", "Added in debug entry");
 
         // Set up the adapter
-        // FIXME list
         adapter = new AppWrapperAdapter(appMapSingleton.getAppMap(),
                 new AppWrapperAdapter.FeedInteractionListener() {
 
