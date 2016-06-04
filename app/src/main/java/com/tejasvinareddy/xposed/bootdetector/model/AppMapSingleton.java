@@ -1,6 +1,6 @@
-package com.tejasvinareddy.xposed.bootdetector;
+package com.tejasvinareddy.xposed.bootdetector.model;
 
-import com.tejasvinareddy.xposed.bootdetector.model.AppWrapper;
+import android.util.Log;
 
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
@@ -32,6 +32,7 @@ public class AppMapSingleton {
     }
 
     public ConcurrentMap<String, AppWrapper> getAppMap() {
+        Log.d("BootDetector", "App Map returned");
         return appMap;
     }
 }

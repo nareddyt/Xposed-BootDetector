@@ -1,6 +1,6 @@
 package com.tejasvinareddy.xposed.bootdetector.hook;
 
-import com.tejasvinareddy.xposed.bootdetector.AppMapSingleton;
+import com.tejasvinareddy.xposed.bootdetector.model.AppMapSingleton;
 import com.tejasvinareddy.xposed.bootdetector.model.AppWrapper;
 import de.robv.android.xposed.IXposedHookLoadPackage;
 import de.robv.android.xposed.XposedBridge;

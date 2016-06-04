@@ -1,4 +1,4 @@
-package com.tejasvinareddy.xposed.bootdetector.activity;
+package com.tejasvinareddy.xposed.bootdetector.ui;
 
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -7,16 +7,15 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import com.tejasvinareddy.xposed.bootdetector.AppMapSingleton;
+import com.tejasvinareddy.xposed.bootdetector.model.AppMapSingleton;
 import com.tejasvinareddy.xposed.bootdetector.R;
 import com.tejasvinareddy.xposed.bootdetector.model.AppWrapper;
-import com.tejasvinareddy.xposed.bootdetector.ui.AppWrapperAdapter;
 
 // TODO sorting options
 // FIXME should be a true consumer that only takes in one app at a time, not
 //      an entire map
 
-public class ListActivityConsumer extends AppCompatActivity {
+public class AppConsumerActivity extends AppCompatActivity {
 
     private AppMapSingleton appMapSingleton;
 
@@ -71,7 +70,6 @@ public class ListActivityConsumer extends AppCompatActivity {
             @Override
             public void onRefresh() {
                 refreshRecyclerView();
-                recyclerView.invalidate();
                 srl.setRefreshing(false);
             }
         });
