@@ -24,18 +24,10 @@ public class AppConsumerActivity extends AppCompatActivity {
     private RecyclerView.Adapter adapter;
     private RecyclerView.LayoutManager layoutManager;
 
-    private int count = 0;
-
     private void refreshRecyclerView() {
 
-        // DEBUG
-        count++;
-        appMapSingleton.getAppMap().put("Test" + count, new AppWrapper("Test" +
-                count));
-        Log.d("BootDetector", "Added in debug entry");
-
         // Set up the adapter
-        adapter = new AppWrapperAdapter(appMapSingleton.getAppMap(),
+        adapter = new AppWrapperAdapter(appMapSingleton.getAppList(),
                 new AppWrapperAdapter.FeedInteractionListener() {
 
                     @Override

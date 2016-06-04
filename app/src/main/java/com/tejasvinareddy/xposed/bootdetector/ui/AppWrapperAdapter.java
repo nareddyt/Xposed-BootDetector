@@ -10,6 +10,7 @@ import com.tejasvinareddy.xposed.bootdetector.R;
 import com.tejasvinareddy.xposed.bootdetector.model.AppWrapper;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Map;
 
 /**
@@ -21,14 +22,9 @@ public class AppWrapperAdapter extends RecyclerView.Adapter<AppWrapperAdapter
     private ArrayList<AppWrapper> apps;
     private FeedInteractionListener listener;
 
-    public AppWrapperAdapter(Map<String, AppWrapper> apps,
-                             FeedInteractionListener feedInteractionListener) {
-        this(new ArrayList<AppWrapper>(apps.values()), feedInteractionListener);
-    }
-
-    public AppWrapperAdapter(ArrayList<AppWrapper> apps, FeedInteractionListener
+    public AppWrapperAdapter(Collection<AppWrapper> apps, FeedInteractionListener
             feedInteractionListener) {
-        this.apps = apps;
+        this.apps = new ArrayList<>(apps);
         listener = feedInteractionListener;
     }
 

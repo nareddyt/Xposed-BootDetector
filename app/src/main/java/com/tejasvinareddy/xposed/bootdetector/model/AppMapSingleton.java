@@ -1,27 +1,26 @@
 package com.tejasvinareddy.xposed.bootdetector.model;
 
-import android.util.Log;
-
+import java.util.Collection;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
 public class AppMapSingleton {
 
+    // FIXME use of synchronized + volatile
+
     // Single instance of this class
-    private static AppMapSingleton instance = null;
+    private static volatile AppMapSingleton instance = null;
 
     // Use of hashmap to improve time efficiency when a new app is detected in
     // hook.AppProducer.java
-    private ConcurrentMap<String, AppWrapper> appMap;
+    private volatile ConcurrentMap<String, AppWrapper> appMap;
 
     // Required private constructor
     private AppMapSingleton() {
-        // Note the use of a concurrent hash map, as multiple threads will
-        // have access to this single instance!
         appMap = new ConcurrentHashMap<>();
+        appMap.put("Test", new AppWrapper("Test"));
     }
 
-    // FIXME switch over to a Mutually Exclusive Semaphore
     public static synchronized AppMapSingleton newInstance() {
         // Singleton implementation
         if (instance == null) {
@@ -31,8 +30,20 @@ public class AppMapSingleton {
         return instance;
     }
 
-    public ConcurrentMap<String, AppWrapper> getAppMap() {
-        Log.d("BootDetector", "App Map returned");
-        return appMap;
+    public synchronized Collection<AppWrapper> getAppList() {
+        return appMap.values();
+    }
+
+    public synchronized void addToAppMap(String loadedPackage) {
+
+        // Update the map as needed
+//        AppWrapper app = appMap.get(loadedPackage);
+//        if (app == null) {
+//            // The key does not exist in the map, so add it with a count of 1
+            appMap.put(loadedPackage, new AppWrapper(loadedPackage));
+//        } else {
+//            // The key does exist in the map, so increment count by 1
+//            app.incrementLoadCount();
+//        }
     }
 }
