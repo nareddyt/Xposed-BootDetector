@@ -7,8 +7,8 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import com.tejasvinareddy.xposed.bootdetector.model.AppQueueSingleton;
 import com.tejasvinareddy.xposed.bootdetector.R;
+import com.tejasvinareddy.xposed.bootdetector.model.AppQueueSingleton;
 import com.tejasvinareddy.xposed.bootdetector.model.AppWrapper;
 
 import java.util.ArrayList;
@@ -33,7 +33,7 @@ public class AppConsumerActivity extends AppCompatActivity {
         // Update the list
         // TODO move to a new thread
         Log.d("BootDetector", "[Consumer] Refreshing app list");
-        while(appQueueSingleton.hasApps()) {
+        while (appQueueSingleton.hasApps()) {
             appList.add(new AppWrapper(appQueueSingleton.takeApp()));
         }
 
@@ -58,7 +58,7 @@ public class AppConsumerActivity extends AppCompatActivity {
         appQueueSingleton = AppQueueSingleton.newInstance();
         Log.d("BootDetector", "[Consumer] New instance of: " + appQueueSingleton
                 .toString
-                ());
+                        ());
 
         // Set up toolbar
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);

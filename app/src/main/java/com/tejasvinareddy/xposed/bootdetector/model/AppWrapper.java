@@ -19,6 +19,22 @@ public class AppWrapper implements Comparable<AppWrapper> {
         return packageName.compareTo(another.packageName);
     }
 
+    @Override
+    public boolean equals(Object other) {
+        if (other == null || !(other instanceof AppWrapper)) {
+            return false;
+        }
+
+        AppWrapper aw = (AppWrapper) other;
+
+        return aw.packageName.equals(packageName);
+    }
+
+    @Override
+    public String toString() {
+        return packageName + "-" + super.toString();
+    }
+
     public int getLoadCount() {
         return loadCount;
     }
@@ -29,21 +45,5 @@ public class AppWrapper implements Comparable<AppWrapper> {
 
     public void incrementLoadCount() {
         loadCount++;
-    }
-
-    @Override
-    public String toString() {
-        return packageName + "-" + super.toString();
-    }
-
-    @Override
-    public boolean equals(Object other) {
-        if (other == null || !(other instanceof AppWrapper)) {
-            return false;
-        }
-
-        AppWrapper aw = (AppWrapper) other;
-
-        return aw.packageName.equals(packageName);
     }
 }

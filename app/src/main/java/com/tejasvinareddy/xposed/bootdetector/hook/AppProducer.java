@@ -3,7 +3,6 @@ package com.tejasvinareddy.xposed.bootdetector.hook;
 import android.util.Log;
 import com.tejasvinareddy.xposed.bootdetector.model.AppQueueSingleton;
 import de.robv.android.xposed.IXposedHookLoadPackage;
-import de.robv.android.xposed.XposedBridge;
 import de.robv.android.xposed.callbacks.XC_LoadPackage;
 
 // FIXME should be a true producer that only introduces 1 app at a time, not

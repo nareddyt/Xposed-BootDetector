@@ -9,10 +9,7 @@ import android.widget.TextView;
 import com.tejasvinareddy.xposed.bootdetector.R;
 import com.tejasvinareddy.xposed.bootdetector.model.AppWrapper;
 
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Adapter for displaying cardviews that represent apps in a RecyclerView.

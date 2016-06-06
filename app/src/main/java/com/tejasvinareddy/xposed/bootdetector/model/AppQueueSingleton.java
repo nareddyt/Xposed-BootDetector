@@ -1,40 +1,38 @@
 package com.tejasvinareddy.xposed.bootdetector.model;
 
+import android.app.Application;
 import android.util.Log;
 
-import java.util.Collection;
 import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.LinkedBlockingQueue;
 
 // FIXME use of synchronized + volatile
 // TODO change to AppWrapper
 // TODO throws clauses
 
-public class AppQueueSingleton {
+public class AppQueueSingleton extends Application {
 
     // Single instance of this class
-    private static volatile AppQueueSingleton instance = null;
+    private static volatile AppQueueSingleton instance = new
+            AppQueueSingleton();
     private volatile BlockingQueue<String> queue;
 
-    // Required private constructor
-    private AppQueueSingleton() {
+    // FIXME change to private but manifest
+    public AppQueueSingleton() {
         queue = new LinkedBlockingQueue<>();
     }
 
     public static synchronized AppQueueSingleton newInstance() {
-        // Singleton implementation
-        if (instance == null) {
-            instance = new AppQueueSingleton();
-            Log.d("BootDetector", "[Queue] New Instance made!!!");
-        }
-
+        // Singleton Implementation
         Log.d("BootDetector", "[Queue] Using instance: " + instance.toString());
         return instance;
     }
 
-    public void putApp(String packageName) {
+    public synchronized boolean hasApps() {
+        return queue.size() != 0;
+    }
+
+    public synchronized void putApp(String packageName) {
         try {
             queue.put(packageName);
             Log.d("BootDetector", "[Queue] Added: " + packageName);
@@ -44,7 +42,7 @@ public class AppQueueSingleton {
         }
     }
 
-    public String takeApp() {
+    public synchronized String takeApp() {
         if (queue.size() == 0) {
             throw new IllegalAccessError("[Queue] Queue size not checked!");
         }
@@ -59,9 +57,5 @@ public class AppQueueSingleton {
 
         // FIXME
         return null;
-    }
-
-    public boolean hasApps() {
-        return queue.size() != 0;
     }
 }
