@@ -1,9 +1,6 @@
 package com.tejasvinareddy.xposed.bootdetector.hook;
 
-import android.content.Intent;
-import com.tejasvinareddy.xposed.bootdetector.model.AppMapSingleton;
-import com.tejasvinareddy.xposed.bootdetector.model.AppWrapper;
-import com.tejasvinareddy.xposed.bootdetector.ui.AppConsumerActivity;
+import com.tejasvinareddy.xposed.bootdetector.model.AppQueueSingleton;
 import de.robv.android.xposed.IXposedHookLoadPackage;
 import de.robv.android.xposed.XposedBridge;
 import de.robv.android.xposed.callbacks.XC_LoadPackage;
@@ -13,23 +10,22 @@ import de.robv.android.xposed.callbacks.XC_LoadPackage;
 
 public class AppProducer implements IXposedHookLoadPackage {
 
-    private AppMapSingleton appMapSingleton;
+    private AppQueueSingleton appQueueSingleton;
 
     @Override
     public void handleLoadPackage(XC_LoadPackage.LoadPackageParam lpparam)
             throws Throwable {
 
-        // Set up App Map Singleton
-        appMapSingleton = AppMapSingleton.newInstance();
-        XposedBridge.log("[BootDetector] " + appMapSingleton);
+        // Set up App Queue Singleton
+        appQueueSingleton = AppQueueSingleton.newInstance();
+        XposedBridge.log("[BootDetector] " + appQueueSingleton);
 
         // Retrieve the name of the loaded package
         String loadedPackage = lpparam.packageName;
         XposedBridge.log("[BootDetector] " + loadedPackage);
 
-        appMapSingleton.addToAppMap("$Test$");
-        XposedBridge.log(appMapSingleton.getAppList().toString());
-
-        appMapSingleton.addToAppMap(loadedPackage);
+        // Place in the App Queue Singleton
+        appQueueSingleton.putApp("$Test$");
+        appQueueSingleton.putApp(loadedPackage);
     }
 }

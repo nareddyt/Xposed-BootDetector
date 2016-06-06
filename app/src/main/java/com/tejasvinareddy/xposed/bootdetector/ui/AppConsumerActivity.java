@@ -6,10 +6,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
-import com.tejasvinareddy.xposed.bootdetector.model.AppMapSingleton;
+import com.tejasvinareddy.xposed.bootdetector.model.AppQueueSingleton;
 import com.tejasvinareddy.xposed.bootdetector.R;
 import com.tejasvinareddy.xposed.bootdetector.model.AppWrapper;
+
+import java.util.ArrayList;
+import java.util.List;
 
 // TODO sorting options
 // FIXME should be a true consumer that only takes in one app at a time, not
@@ -17,7 +19,8 @@ import com.tejasvinareddy.xposed.bootdetector.model.AppWrapper;
 
 public class AppConsumerActivity extends AppCompatActivity {
 
-    private AppMapSingleton appMapSingleton;
+    private AppQueueSingleton appQueueSingleton;
+    private List<AppWrapper> appList = new ArrayList<>();
 
     private SwipeRefreshLayout srl;
     private RecyclerView recyclerView;
@@ -26,8 +29,14 @@ public class AppConsumerActivity extends AppCompatActivity {
 
     private void refreshRecyclerView() {
 
+        // Update the list
+        // TODO move to a new thread
+        while(appQueueSingleton.hasApps()) {
+            appList.add(new AppWrapper(appQueueSingleton.takeApp()));
+        }
+
         // Set up the adapter
-        adapter = new AppWrapperAdapter(appMapSingleton.getAppList(),
+        adapter = new AppWrapperAdapter(appList,
                 new AppWrapperAdapter.FeedInteractionListener() {
 
                     @Override
@@ -44,7 +53,7 @@ public class AppConsumerActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main_list);
 
         // Set up App Map Singleton
-        appMapSingleton = AppMapSingleton.newInstance();
+        appQueueSingleton = AppQueueSingleton.newInstance();
 
         // Set up toolbar
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
