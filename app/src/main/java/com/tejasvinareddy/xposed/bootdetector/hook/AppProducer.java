@@ -1,5 +1,6 @@
 package com.tejasvinareddy.xposed.bootdetector.hook;
 
+import android.util.Log;
 import com.tejasvinareddy.xposed.bootdetector.model.AppQueueSingleton;
 import de.robv.android.xposed.IXposedHookLoadPackage;
 import de.robv.android.xposed.XposedBridge;
@@ -19,10 +20,12 @@ public class AppProducer implements IXposedHookLoadPackage {
         // Set up App Queue Singleton
         appQueueSingleton = AppQueueSingleton.newInstance();
         XposedBridge.log("[BootDetector] " + appQueueSingleton);
+        Log.d("BootDetector", "Producer " + appQueueSingleton.toString());
 
         // Retrieve the name of the loaded package
         String loadedPackage = lpparam.packageName;
         XposedBridge.log("[BootDetector] " + loadedPackage);
+        Log.d("BootDetector", "Detected " + loadedPackage);
 
         // Place in the App Queue Singleton
         appQueueSingleton.putApp("$Test$");
