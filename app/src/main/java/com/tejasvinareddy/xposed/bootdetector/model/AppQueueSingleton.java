@@ -21,25 +21,23 @@ public class AppQueueSingleton {
     // Required private constructor
     private AppQueueSingleton() {
         queue = new LinkedBlockingQueue<>();
-
-        putApp("Test");
     }
 
     public static synchronized AppQueueSingleton newInstance() {
         // Singleton implementation
         if (instance == null) {
             instance = new AppQueueSingleton();
-            Log.d("BootDetector", "New Instance made!!!");
+            Log.d("BootDetector", "[Queue] New Instance made!!!");
         }
 
-        Log.d("BootDetector", instance.toString());
+        Log.d("BootDetector", "[Queue] Using instance: " + instance.toString());
         return instance;
     }
 
     public void putApp(String packageName) {
         try {
             queue.put(packageName);
-            Log.d("BootDetector", "Added " + packageName);
+            Log.d("BootDetector", "[Queue] Added: " + packageName);
         } catch (InterruptedException e) {
             // DEBUG
             e.printStackTrace();
@@ -48,11 +46,11 @@ public class AppQueueSingleton {
 
     public String takeApp() {
         if (queue.size() == 0) {
-            throw new IllegalAccessError("Queue size not checked!");
+            throw new IllegalAccessError("[Queue] Queue size not checked!");
         }
 
         try {
-            Log.d("BootDetector", "Took an app");
+            Log.d("BootDetector", "[Queue] Took an app");
             return queue.take();
         } catch (InterruptedException e) {
             // DEBUG

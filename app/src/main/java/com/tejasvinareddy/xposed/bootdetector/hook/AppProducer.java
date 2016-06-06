@@ -19,16 +19,14 @@ public class AppProducer implements IXposedHookLoadPackage {
 
         // Set up App Queue Singleton
         appQueueSingleton = AppQueueSingleton.newInstance();
-        XposedBridge.log("[BootDetector] " + appQueueSingleton);
-        Log.d("BootDetector", "Producer " + appQueueSingleton.toString());
+        Log.d("BootDetector", "[Producer] New instance of: " + appQueueSingleton
+                .toString());
 
         // Retrieve the name of the loaded package
         String loadedPackage = lpparam.packageName;
-        XposedBridge.log("[BootDetector] " + loadedPackage);
-        Log.d("BootDetector", "Detected " + loadedPackage);
+        Log.d("BootDetector", "[Producer] Detected: " + loadedPackage);
 
         // Place in the App Queue Singleton
-        appQueueSingleton.putApp("$Test$");
         appQueueSingleton.putApp(loadedPackage);
     }
 }

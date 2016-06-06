@@ -32,11 +32,10 @@ public class AppConsumerActivity extends AppCompatActivity {
 
         // Update the list
         // TODO move to a new thread
-        Log.d("BootDetector", "Refreshing app list");
+        Log.d("BootDetector", "[Consumer] Refreshing app list");
         while(appQueueSingleton.hasApps()) {
             appList.add(new AppWrapper(appQueueSingleton.takeApp()));
         }
-        appQueueSingleton.putApp("Test2+");
 
         // Set up the adapter
         adapter = new AppWrapperAdapter(appList,
@@ -57,7 +56,9 @@ public class AppConsumerActivity extends AppCompatActivity {
 
         // Set up App Map Singleton
         appQueueSingleton = AppQueueSingleton.newInstance();
-        Log.d("BootDetector", "Consumer " + appQueueSingleton.toString());
+        Log.d("BootDetector", "[Consumer] New instance of: " + appQueueSingleton
+                .toString
+                ());
 
         // Set up toolbar
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
