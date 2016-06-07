@@ -11,6 +11,8 @@ import com.tejasvinareddy.xposed.bootdetector.model.AppWrapper;
 
 import java.util.List;
 
+// TODO integrate feed interaction listener
+
 /**
  * Adapter for displaying cardviews that represent apps in a RecyclerView.
  */
@@ -26,11 +28,6 @@ public class AppWrapperAdapter extends RecyclerView.Adapter<AppWrapperAdapter
         listener = feedInteractionListener;
     }
 
-    public void add(AppWrapper app) {
-        apps.add(app);
-        this.notifyDataSetChanged();
-    }
-
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
         View v = LayoutInflater.from(viewGroup.getContext())
@@ -42,6 +39,12 @@ public class AppWrapperAdapter extends RecyclerView.Adapter<AppWrapperAdapter
     @Override
     public void onBindViewHolder(final ViewHolder viewHolder, final int i) {
         viewHolder.packageName.setText(apps.get(i).getPackageName());
+        viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                listener.onAppClicked(apps.get(i), i);
+            }
+        });
     }
 
     @Override
@@ -50,7 +53,7 @@ public class AppWrapperAdapter extends RecyclerView.Adapter<AppWrapperAdapter
     }
 
     public interface FeedInteractionListener {
-        void onPostClicked(AppWrapper app, int index);
+        void onAppClicked(AppWrapper app, int index);
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {

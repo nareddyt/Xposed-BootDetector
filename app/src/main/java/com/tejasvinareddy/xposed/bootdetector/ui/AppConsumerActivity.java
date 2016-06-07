@@ -6,23 +6,20 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import com.tejasvinareddy.xposed.bootdetector.R;
-import com.tejasvinareddy.xposed.bootdetector.model.AppQueueSingleton;
 import com.tejasvinareddy.xposed.bootdetector.model.AppWrapper;
 
 import java.util.ArrayList;
 import java.util.List;
 
 // TODO sorting options
-// FIXME should be a true consumer that only takes in one app at a time, not
-//      an entire map
 
 public class AppConsumerActivity extends AppCompatActivity {
 
-    private AppQueueSingleton appQueueSingleton;
+    // Data variables
     private List<AppWrapper> appList = new ArrayList<>();
 
+    // UI variables
     private SwipeRefreshLayout srl;
     private RecyclerView recyclerView;
     private RecyclerView.Adapter adapter;
@@ -30,19 +27,13 @@ public class AppConsumerActivity extends AppCompatActivity {
 
     private void refreshRecyclerView() {
 
-        // Update the list
-        // TODO move to a new thread
-        Log.d("BootDetector", "[Consumer] Refreshing app list");
-        while (appQueueSingleton.hasApps()) {
-            appList.add(new AppWrapper(appQueueSingleton.takeApp()));
-        }
+        // TODO update the App List
 
         // Set up the adapter
         adapter = new AppWrapperAdapter(appList,
                 new AppWrapperAdapter.FeedInteractionListener() {
-
                     @Override
-                    public void onPostClicked(AppWrapper app, int index) {
+                    public void onAppClicked(AppWrapper app, int index) {
                         // TODO
                     }
                 });
@@ -53,12 +44,6 @@ public class AppConsumerActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_list);
-
-        // Set up App Map Singleton
-        appQueueSingleton = AppQueueSingleton.newInstance();
-        Log.d("BootDetector", "[Consumer] New instance of: " + appQueueSingleton
-                .toString
-                        ());
 
         // Set up toolbar
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);

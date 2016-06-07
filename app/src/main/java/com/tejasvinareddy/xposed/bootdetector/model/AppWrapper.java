@@ -1,5 +1,7 @@
 package com.tejasvinareddy.xposed.bootdetector.model;
 
+// TODO static comparators
+
 public class AppWrapper implements Comparable<AppWrapper> {
     private final String packageName;
     private int loadCount;
